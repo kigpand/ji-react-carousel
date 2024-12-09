@@ -17,8 +17,7 @@ export function Carousel({
   const [moveCount, setMoveCount] = useState<number>(0);
 
   const handleLeftButton = () => {
-    console.log(React.Children.count(children));
-    if (moveCount < React.Children.count(children)) {
+    if (moveCount < React.Children.count(children) - viewCount) {
       setMoveCount(moveCount + 1);
     }
   };
