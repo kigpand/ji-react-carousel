@@ -19,37 +19,73 @@ export function Carousel({
   viewCount,
   infinite = false,
 }: Props) {
-  const [moveCount, setMoveCount] = useState<number>(0);
+  const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
+  const [transition, setTransition] = useState<string>("500ms");
 
   const sliderChildren = useMemo<ReactElement[]>(() => {
-    const value = [
-      ...React.Children.toArray(children),
-      ...React.Children.toArray(children),
-    ].map((item, i) => {
-      return React.cloneElement(item as React.ReactElement, {
-        key: `original-${i}`,
+    const childArr = React.Children.toArray(children);
+    if (infinite) {
+      const value = [
+        ...childArr.slice(childArr.length - viewCount, childArr.length),
+        ...childArr,
+        ...childArr.slice(0, viewCount),
+      ].map((item, i) => {
+        return React.cloneElement(item as React.ReactElement, {
+          key: `original-${i}`,
+        });
       });
-    });
-    return value;
+      return value;
+    }
+    return childArr.map((item) =>
+      React.cloneElement(item as React.ReactElement)
+    );
   }, [children]);
 
   const handleLeftButton = () => {
-    if (moveCount < sliderChildren.length - viewCount) {
-      setMoveCount(moveCount + 1);
+    if (infinite) {
+      setMoveCount(moveCount - 1);
+      if (moveCount === viewCount) {
+        const childLength = React.Children.count(children);
+        handleMoveToSlide(childLength + viewCount - 1);
+      }
+    } else {
+      if (moveCount > 0) {
+        setMoveCount(moveCount - 1);
+      }
     }
+    setTransition("500ms");
   };
 
   const handleRightButton = () => {
-    if (moveCount > 0) {
-      setMoveCount(moveCount - 1);
+    if (infinite) {
+      setMoveCount(moveCount + 1);
+      if (moveCount === sliderChildren.length + viewCount) {
+        handleMoveToSlide(1);
+      }
+    } else {
+      if (moveCount < sliderChildren.length - viewCount) {
+        setMoveCount(moveCount + 1);
+      }
     }
+    setTransition("500ms");
+  };
+
+  const handleMoveToSlide = (num: number) => {
+    setTimeout(() => {
+      setTransition("");
+      setMoveCount(num);
+    }, 500);
   };
 
   return (
     <Wrapper>
       <div onClick={handleLeftButton}>left</div>
       <CarouselStyled $width={`${viewCount * width}px`}>
-        <CarouselSlider width={width} moveCount={moveCount}>
+        <CarouselSlider
+          width={width}
+          moveCount={moveCount}
+          transition={transition}
+        >
           {sliderChildren}
         </CarouselSlider>
       </CarouselStyled>
