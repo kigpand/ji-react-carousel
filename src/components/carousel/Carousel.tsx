@@ -1,5 +1,10 @@
 import styled from "@emotion/styled";
-import React, { PropsWithChildren, useState } from "react";
+import React, {
+  PropsWithChildren,
+  ReactElement,
+  useMemo,
+  useState,
+} from "react";
 import CarouselSlider from "./CarouselSlider";
 
 type Props = {
@@ -16,8 +21,20 @@ export function Carousel({
 }: Props) {
   const [moveCount, setMoveCount] = useState<number>(0);
 
+  const sliderChildren = useMemo<ReactElement[]>(() => {
+    const value = [
+      ...React.Children.toArray(children),
+      ...React.Children.toArray(children),
+    ].map((item, i) => {
+      return React.cloneElement(item as React.ReactElement, {
+        key: `original-${i}`,
+      });
+    });
+    return value;
+  }, [children]);
+
   const handleLeftButton = () => {
-    if (moveCount < React.Children.count(children) - viewCount) {
+    if (moveCount < sliderChildren.length - viewCount) {
       setMoveCount(moveCount + 1);
     }
   };
@@ -33,7 +50,7 @@ export function Carousel({
       <div onClick={handleLeftButton}>left</div>
       <CarouselStyled $width={`${viewCount * width}px`}>
         <CarouselSlider width={width} moveCount={moveCount}>
-          {children}
+          {sliderChildren}
         </CarouselSlider>
       </CarouselStyled>
       <div onClick={handleRightButton}>right</div>
