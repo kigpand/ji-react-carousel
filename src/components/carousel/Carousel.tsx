@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import CarouselSlider from "./CarouselSlider";
+import { useInterval } from "../hooks/useInterval";
 
 /**
  * width: Carousel Item의 width
@@ -16,6 +17,7 @@ type Props = {
   width: number;
   viewCount: number;
   infinite?: boolean;
+  auto?: boolean;
 } & PropsWithChildren;
 
 export function Carousel({
@@ -23,11 +25,16 @@ export function Carousel({
   width,
   viewCount,
   infinite = false,
+  auto = false,
 }: Props) {
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
   const [transition, setTransition] = useState<string>("500ms");
+
+  useInterval(auto, 3000, () => {
+    setMoveCount(moveCount + 1);
+  });
 
   /**
    * slider에 적용할 Child 요소
