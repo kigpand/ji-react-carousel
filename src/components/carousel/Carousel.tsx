@@ -32,10 +32,6 @@ export function Carousel({
   // transition용 state
   const [transition, setTransition] = useState<string>("500ms");
 
-  useInterval(auto, 3000, () => {
-    setMoveCount(moveCount + 1);
-  });
-
   /**
    * slider에 적용할 Child 요소
    * viewCount만큼 양 옆으로 임시 아이템 추가.
@@ -105,6 +101,12 @@ export function Carousel({
       setMoveCount(num);
     }, 500);
   };
+
+  // auto carousel용 interval hook
+  // handleRightButton 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
+  useInterval(auto, 1000, () => {
+    handleRightButton();
+  });
 
   return (
     <Wrapper>
