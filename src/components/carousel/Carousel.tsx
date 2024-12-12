@@ -1,24 +1,8 @@
 import styled from "@emotion/styled";
-import React, {
-  PropsWithChildren,
-  ReactElement,
-  useMemo,
-  useState,
-} from "react";
+import React, { ReactElement, useMemo, useState } from "react";
 import CarouselSlider from "./CarouselSlider";
 import { useInterval } from "../hooks/useInterval";
-
-/**
- * width: Carousel Item의 width
- * viewCount: Carousel에서 한번에 보여줄 item 갯수
- * infinite: 무한 슬라이드 적용 여부. defalut = false
- */
-type Props = {
-  width: number;
-  viewCount: number;
-  infinite?: boolean;
-  auto?: boolean;
-} & PropsWithChildren;
+import { CarouselProps } from "../../types/CarouselProps";
 
 export function Carousel({
   children,
@@ -26,7 +10,8 @@ export function Carousel({
   viewCount,
   infinite = false,
   auto = false,
-}: Props) {
+  autoTimer = 3000,
+}: CarouselProps) {
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
@@ -104,7 +89,7 @@ export function Carousel({
 
   // auto carousel용 interval hook
   // handleRightButton 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
-  useInterval(auto, 1000, () => {
+  useInterval(auto, autoTimer, () => {
     handleRightButton();
   });
 
