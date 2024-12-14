@@ -106,7 +106,7 @@ export function Carousel({
             <FaChevronLeft size="30" onClick={handleLeftButton} />
           )}
         </ArrowWrapper>
-        <CarouselStyled $width={`${viewCount * width}px`}>
+        <CarouselStyled width={`${viewCount * width}px`}>
           <CarouselSlider
             width={width}
             moveCount={moveCount}
@@ -147,12 +147,12 @@ const Wrapper = styled.div`
 `;
 
 type StyledProps = {
-  $width: string;
+  width: string;
 };
 
 const CarouselStyled = styled.div<StyledProps>`
   display: flex;
-  width: ${(props) => props.$width};
+  width: ${(props) => props.width};
   height: 100%;
   overflow: hidden;
 `;

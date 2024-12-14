@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import React, { PropsWithChildren } from "react";
 
@@ -15,9 +16,9 @@ export default function CarouselSlider({
 }: Props) {
   return (
     <SliderWrapper
-      $width={`${React.Children.count(children) * width}px`}
-      $transform={`-${moveCount * width}px`}
-      $transition={transition}
+      width={`${React.Children.count(children) * width}px`}
+      translateX={`-${moveCount * width}px`}
+      transition={transition}
     >
       {children}
     </SliderWrapper>
@@ -25,14 +26,18 @@ export default function CarouselSlider({
 }
 
 type StyledProps = {
-  $width: string;
-  $transform: string;
-  $transition: string;
+  width: string;
+  translateX: string;
+  transition: string;
 };
 
 const SliderWrapper = styled.div<StyledProps>`
   display: flex;
-  width: ${(props) => props.$width};
-  transform: translateX(${(props) => props.$transform});
-  transition: ${(props) => props.$transition};
+
+  ${(props) =>
+    css`
+      width: ${props.width};
+      transform: ${props.translateX};
+      transition: ${props.transition};
+    `}
 `;

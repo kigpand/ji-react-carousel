@@ -18,7 +18,7 @@ export default function CarouselPaging({
         return (
           <PagingItem
             key={i}
-            $active={i === moveCount}
+            isActive={i === moveCount}
             onClick={() => handleChangeMoveCount(i)}
           />
         );
@@ -33,7 +33,7 @@ const PagingStyled = styled.ul`
   gap: 15px;
 `;
 
-const PagingItem = styled.li<{ $active: boolean }>`
+const PagingItem = styled.li<{ isActive: boolean }>`
   width: 8px;
   height: 8px;
   background-color: #66d4ff;
@@ -41,8 +41,8 @@ const PagingItem = styled.li<{ $active: boolean }>`
   cursor: pointer;
   transition: 0.1s;
 
-  ${({ $active }) =>
-    $active &&
+  ${({ isActive }) =>
+    isActive &&
     css`
       transform: scale(1.5);
     `}
