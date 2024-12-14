@@ -5,7 +5,7 @@ import React, { PropsWithChildren } from "react";
 type Props = {
   width: number;
   moveCount: number;
-  transition: string;
+  transition: number;
 } & PropsWithChildren;
 
 export default function CarouselSlider({
@@ -16,8 +16,8 @@ export default function CarouselSlider({
 }: Props) {
   return (
     <SliderWrapper
-      width={`${React.Children.count(children) * width}px`}
-      translateX={`-${moveCount * width}px`}
+      width={React.Children.count(children) * width}
+      translateX={moveCount * width}
       transition={transition}
     >
       {children}
@@ -26,9 +26,9 @@ export default function CarouselSlider({
 }
 
 type StyledProps = {
-  width: string;
-  translateX: string;
-  transition: string;
+  width: number;
+  translateX: number;
+  transition: number;
 };
 
 const SliderWrapper = styled.div<StyledProps>`
@@ -36,8 +36,8 @@ const SliderWrapper = styled.div<StyledProps>`
 
   ${(props) =>
     css`
-      width: ${props.width};
-      transform: translateX(${props.translateX});
-      transition: ${props.transition};
+      width: ${props.width}px;
+      transform: translateX(-${props.translateX}px);
+      transition: ${props.transition}ms;
     `}
 `;

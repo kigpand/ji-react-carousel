@@ -20,7 +20,7 @@ export function Carousel({
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
-  const [transition, setTransition] = useState<string>("500ms");
+  const [transition, setTransition] = useState<number>(500);
 
   /**
    * slider에 적용할 Child 요소
@@ -62,7 +62,7 @@ export function Carousel({
         setMoveCount(moveCount - 1);
       }
     }
-    setTransition("500ms");
+    setTransition(500);
   };
 
   const handleRightButton = () => {
@@ -78,7 +78,7 @@ export function Carousel({
         setMoveCount(moveCount + 1);
       }
     }
-    setTransition("500ms");
+    setTransition(500);
   };
   /**
    * 임시 아이템에 도달했을 경우 실행할 함수.
@@ -87,7 +87,7 @@ export function Carousel({
    *  */
   const handleMoveToSlide = (num: number) => {
     setTimeout(() => {
-      setTransition("");
+      setTransition(0);
       setMoveCount(num);
     }, 500);
   };
