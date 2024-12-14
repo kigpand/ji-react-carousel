@@ -32,7 +32,7 @@ export function Carousel({
     const childArr = React.Children.toArray(children);
     if (infinite) {
       const value = [
-        ...childArr.slice(childArr.length - viewCount, childArr.length),
+        ...childArr.slice(-viewCount),
         ...childArr,
         ...childArr.slice(0, viewCount),
       ].map((item, i) => {
