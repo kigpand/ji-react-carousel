@@ -1,6 +1,12 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { MouseEvent, PropsWithChildren, useRef, useState } from "react";
+import React, {
+  MouseEvent,
+  PropsWithChildren,
+  TouchEvent,
+  useRef,
+  useState,
+} from "react";
 
 type Props = {
   width: number;
@@ -33,6 +39,19 @@ export default function CarouselSlider({
     }
   };
 
+  const handleTouchStart = (e: TouchEvent) => {
+    setStartPosition(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    const touch = e.changedTouches[0];
+    if (startPosition > touch.clientX) {
+      handleRightButton();
+    } else {
+      handleLeftButton();
+    }
+  };
+
   return (
     <SliderWrapper
       ref={sliderRef}
@@ -41,6 +60,8 @@ export default function CarouselSlider({
       transition={transition}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {children}
     </SliderWrapper>
