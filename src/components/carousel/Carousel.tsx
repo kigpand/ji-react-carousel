@@ -113,6 +113,7 @@ export function Carousel({
             width={width}
             moveCount={moveCount}
             transition={transition}
+            handleChangeMoveCount={setMoveCount}
           >
             {sliderChildren}
           </CarouselSlider>
