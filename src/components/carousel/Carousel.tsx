@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React, { ReactElement, useMemo, useState } from "react";
 import CarouselSlider from "./CarouselSlider";
 import { useInterval } from "../hooks/useInterval";
-import { CarouselProps } from "../types/CarouselProps";
+import { CarouselProps } from "../../types/CarouselProps";
 import CarouselPaging from "./paging/CarouselPaging";
 
 export function Carousel({
@@ -14,6 +14,8 @@ export function Carousel({
   autoTimer = 3000,
   paging = false,
 }: CarouselProps) {
+  // paging 적용시 infinite slider 옵션 off되도록 적용.
+  infinite = paging ? false : infinite;
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
@@ -112,7 +114,7 @@ export function Carousel({
       </Wrapper>
       {paging && (
         <CarouselPaging
-          viewCount={viewCount}
+          moveCount={moveCount}
           pageCount={sliderChildren.length}
           handleChangeMoveCount={(num: number) => setMoveCount(num)}
         />
