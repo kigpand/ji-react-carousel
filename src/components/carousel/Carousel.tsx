@@ -2,7 +2,8 @@ import styled from "@emotion/styled";
 import React, { ReactElement, useMemo, useState } from "react";
 import CarouselSlider from "./CarouselSlider";
 import { useInterval } from "../hooks/useInterval";
-import { CarouselProps } from "../../types/CarouselProps";
+import { CarouselProps } from "../types/CarouselProps";
+import CarouselPaging from "./paging/CarouselPaging";
 
 export function Carousel({
   children,
@@ -11,6 +12,7 @@ export function Carousel({
   infinite = false,
   auto = false,
   autoTimer = 3000,
+  paging = false,
 }: CarouselProps) {
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
@@ -94,23 +96,39 @@ export function Carousel({
   });
 
   return (
-    <Wrapper>
-      <div onClick={handleLeftButton}>left</div>
-      <CarouselStyled $width={`${viewCount * width}px`}>
-        <CarouselSlider
-          width={width}
-          moveCount={moveCount}
-          transition={transition}
-        >
-          {sliderChildren}
-        </CarouselSlider>
-      </CarouselStyled>
-      <div onClick={handleRightButton}>right</div>
-    </Wrapper>
+    <CarouselWrapper>
+      <Wrapper>
+        <div onClick={handleLeftButton}>left</div>
+        <CarouselStyled $width={`${viewCount * width}px`}>
+          <CarouselSlider
+            width={width}
+            moveCount={moveCount}
+            transition={transition}
+          >
+            {sliderChildren}
+          </CarouselSlider>
+        </CarouselStyled>
+        <div onClick={handleRightButton}>right</div>
+      </Wrapper>
+      {paging && (
+        <CarouselPaging
+          viewCount={viewCount}
+          pageCount={sliderChildren.length}
+          handleChangeMoveCount={(num: number) => setMoveCount(num)}
+        />
+      )}
+    </CarouselWrapper>
   );
 }
 
-const Wrapper = styled.section`
+const CarouselWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 10px;
+`;
+
+const Wrapper = styled.div`
   display: flex;
   gap: 10px;
   height: 100%;

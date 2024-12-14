@@ -11,4 +11,5 @@ export type CarouselProps = {
   infinite?: boolean;
   auto?: boolean;
   autoTimer?: number;
+  paging?: boolean;
 } & PropsWithChildren;
