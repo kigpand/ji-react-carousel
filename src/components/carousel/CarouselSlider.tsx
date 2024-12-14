@@ -37,7 +37,7 @@ const SliderWrapper = styled.div<StyledProps>`
   ${(props) =>
     css`
       width: ${props.width};
-      transform: ${props.translateX};
+      transform: translateX(${props.translateX});
       transition: ${props.transition};
     `}
 `;
