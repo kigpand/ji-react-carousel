@@ -47,9 +47,9 @@ export function Carousel({
     return childArr.map((item) =>
       React.cloneElement(item as React.ReactElement)
     );
-  }, [children]);
+  }, [children, infinite, viewCount]);
 
-  const handleLeftButton = () => {
+  const handlePrev = () => {
     if (infinite) {
       setMoveCount(moveCount - 1);
 
@@ -67,7 +67,7 @@ export function Carousel({
     setTransition(500);
   };
 
-  const handleRightButton = () => {
+  const handleNext = () => {
     if (infinite) {
       setMoveCount(moveCount + 1);
       // sliderChildren.length - 1 - viewCount => 임시 슬라이드의 마지막까지 캐로셀에 표시됬다는 것.
@@ -95,9 +95,9 @@ export function Carousel({
   };
 
   // auto carousel용 interval hook
-  // handleRightButton 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
+  // handleNext 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
   useInterval(auto, autoTimer, () => {
-    handleRightButton();
+    handleNext();
   });
 
   return (
@@ -105,7 +105,7 @@ export function Carousel({
       <Wrapper>
         <ArrowWrapper>
           {(infinite || moveCount !== 0) && (
-            <FaChevronLeft size="30" onClick={handleLeftButton} />
+            <FaChevronLeft size="30" onClick={handlePrev} />
           )}
         </ArrowWrapper>
         <CarouselStyled width={`${viewCount * width}px`}>
@@ -113,15 +113,15 @@ export function Carousel({
             width={width}
             moveCount={moveCount}
             transition={transition}
-            handleLeftButton={handleLeftButton}
-            handleRightButton={handleRightButton}
+            handlePrev={handlePrev}
+            handleNext={handleNext}
           >
             {sliderChildren}
           </CarouselSlider>
         </CarouselStyled>
         <ArrowWrapper>
           {(infinite || moveCount !== sliderChildren.length - 1) && (
-            <FaChevronRight size="30" onClick={handleRightButton} />
+            <FaChevronRight size="30" onClick={handleNext} />
           )}
         </ArrowWrapper>
       </Wrapper>

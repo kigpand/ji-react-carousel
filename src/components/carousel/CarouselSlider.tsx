@@ -12,8 +12,8 @@ type Props = {
   width: number;
   moveCount: number;
   transition: number;
-  handleLeftButton: () => void;
-  handleRightButton: () => void;
+  handlePrev: () => void;
+  handleNext: () => void;
 } & PropsWithChildren;
 
 export default function CarouselSlider({
@@ -21,8 +21,8 @@ export default function CarouselSlider({
   width,
   moveCount,
   transition,
-  handleLeftButton,
-  handleRightButton,
+  handlePrev,
+  handleNext,
 }: Props) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [startPosition, setStartPosition] = useState<number>(0);
@@ -33,9 +33,9 @@ export default function CarouselSlider({
 
   const handleMouseUp = (e: MouseEvent) => {
     if (startPosition > e.clientX) {
-      handleRightButton();
+      handleNext();
     } else {
-      handleLeftButton();
+      handlePrev();
     }
   };
 
@@ -46,9 +46,9 @@ export default function CarouselSlider({
   const handleTouchEnd = (e: TouchEvent) => {
     const touch = e.changedTouches[0];
     if (startPosition > touch.clientX) {
-      handleRightButton();
+      handleNext();
     } else {
-      handleLeftButton();
+      handlePrev();
     }
   };
 
