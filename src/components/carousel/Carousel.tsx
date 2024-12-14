@@ -17,6 +17,8 @@ export function Carousel({
 }: CarouselProps) {
   // paging 적용시 infinite slider 옵션 off되도록 적용.
   infinite = paging ? false : infinite;
+  // paging 적용시 viewCount는 1로 적용.
+  viewCount = paging ? 1 : viewCount;
   // 현재 캐로셀 아이템의 위치. infinite일 경우 임시슬라이드의 사이즈만큼 이동해야되기때문에 viewCount로 값 초기화.
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
