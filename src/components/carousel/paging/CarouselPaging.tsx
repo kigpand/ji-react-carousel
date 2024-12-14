@@ -15,7 +15,13 @@ export default function CarouselPaging({
   return (
     <PagingStyled>
       {Array.from({ length: pageCount }).map((_, i) => {
-        return <PagingItem key={i} onClick={() => handleChangeMoveCount(i)} />;
+        return (
+          <PagingItem
+            key={i}
+            $active={i === moveCount}
+            onClick={() => handleChangeMoveCount(i)}
+          />
+        );
       })}
     </PagingStyled>
   );
@@ -24,7 +30,20 @@ export default function CarouselPaging({
 const PagingStyled = styled.ul`
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
 `;
 
-const PagingItem = styled.li``;
+const PagingItem = styled.li<{ $active: boolean }>`
+  width: 8px;
+  height: 8px;
+  background-color: #66d4ff;
+  border-radius: 90%;
+  cursor: pointer;
+  transition: 0.1s;
+
+  ${({ $active }) =>
+    $active &&
+    css`
+      transform: scale(1.5);
+    `}
+`;
