@@ -4,6 +4,7 @@ import CarouselSlider from "./CarouselSlider";
 import { useInterval } from "../hooks/useInterval";
 import { CarouselProps } from "../../types/CarouselProps";
 import CarouselPaging from "./paging/CarouselPaging";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 export function Carousel({
   children,
@@ -100,7 +101,11 @@ export function Carousel({
   return (
     <CarouselWrapper>
       <Wrapper>
-        <div onClick={handleLeftButton}>left</div>
+        <ArrowWrapper>
+          {(infinite || moveCount !== 0) && (
+            <FaChevronLeft size="30" onClick={handleLeftButton} />
+          )}
+        </ArrowWrapper>
         <CarouselStyled $width={`${viewCount * width}px`}>
           <CarouselSlider
             width={width}
@@ -110,7 +115,11 @@ export function Carousel({
             {sliderChildren}
           </CarouselSlider>
         </CarouselStyled>
-        <div onClick={handleRightButton}>right</div>
+        <ArrowWrapper>
+          {(infinite || moveCount !== sliderChildren.length - 1) && (
+            <FaChevronRight size="30" onClick={handleRightButton} />
+          )}
+        </ArrowWrapper>
       </Wrapper>
       {paging && (
         <CarouselPaging
@@ -146,4 +155,9 @@ const CarouselStyled = styled.div<StyledProps>`
   width: ${(props) => props.$width};
   height: 100%;
   overflow: hidden;
+`;
+
+const ArrowWrapper = styled.div`
+  width: 30px;
+  cursor: pointer;
 `;
