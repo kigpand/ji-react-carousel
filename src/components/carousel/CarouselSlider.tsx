@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import CarouselDelete from "./CarouselDelete";
 
 type Props = {
   width: number;
@@ -14,6 +15,7 @@ type Props = {
   transition: number;
   handlePrev: () => void;
   handleNext: () => void;
+  handleDelete: (index: number) => void;
 } & PropsWithChildren;
 
 export default function CarouselSlider({
@@ -23,6 +25,7 @@ export default function CarouselSlider({
   transition,
   handlePrev,
   handleNext,
+  handleDelete,
 }: Props) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [startPosition, setStartPosition] = useState<number>(0);
@@ -63,7 +66,14 @@ export default function CarouselSlider({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {children}
+      {React.Children.map(children, (item, i) => {
+        return (
+          <SliderItem key={i} width={width}>
+            {item}
+            <CarouselDelete handleDeleteButton={() => handleDelete(i)} />
+          </SliderItem>
+        );
+      })}
     </SliderWrapper>
   );
 }
@@ -76,6 +86,7 @@ type StyledProps = {
 
 const SliderWrapper = styled.div<StyledProps>`
   display: flex;
+  cursor: grab;
 
   ${(props) =>
     css`
@@ -83,4 +94,14 @@ const SliderWrapper = styled.div<StyledProps>`
       transform: translateX(-${props.translateX}px);
       transition: ${props.transition}ms;
     `}
+`;
+
+const SliderItem = styled.div<{ width: number }>`
+  width: ${(props) => props.width}px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover .carousel_deleteButton {
+    display: block;
+  }
 `;

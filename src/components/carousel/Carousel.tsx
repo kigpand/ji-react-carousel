@@ -15,6 +15,8 @@ export function Carousel({
   autoTimer = 3000,
   paging = false,
 }: CarouselProps) {
+  // 원본 children state
+  const [childrenState, setChildrenState] = useState<React.ReactNode>(children);
   // paging 적용시 infinite slider 옵션 off되도록 적용.
   infinite = paging ? false : infinite;
   // paging 적용시 viewCount는 1로 적용.
@@ -31,7 +33,7 @@ export function Carousel({
    * 그래서 임시 아이템를 만들어 임시아이템 위치에 도달하면 transtion을 없애고 실제 아이템 위치로 이동하도록하기 위해 임시 아이템 추가.
    *  */
   const sliderChildren = useMemo<ReactElement[]>(() => {
-    const childArr = React.Children.toArray(children);
+    const childArr = React.Children.toArray(childrenState);
     if (infinite) {
       const value = [
         ...childArr.slice(-viewCount),
@@ -47,7 +49,7 @@ export function Carousel({
     return childArr.map((item) =>
       React.cloneElement(item as React.ReactElement)
     );
-  }, [children, infinite, viewCount]);
+  }, [childrenState, infinite, viewCount]);
 
   const handlePrev = () => {
     if (infinite) {
@@ -56,7 +58,7 @@ export function Carousel({
       // 현재 아이템 위치가 viewCount와 같다는건 임시 아이템 위치에 도달했다는 것.
       // 임시 아이템에서 원래 보여줘야할 실제 아이템로 이동하기 위한 구문.
       if (moveCount === viewCount) {
-        const childLength = React.Children.count(children);
+        const childLength = React.Children.count(childrenState);
         handleMoveToSlide(childLength + viewCount - 1);
       }
     } else {
@@ -94,6 +96,17 @@ export function Carousel({
     }, 500);
   };
 
+  const handleDeleteChildren = (index: number) => {
+    const postion = infinite ? index - viewCount : index;
+    const newChildren = React.Children.map(childrenState, (child, i) => {
+      if (React.isValidElement(child) && i !== postion) {
+        return child; // 조건에 맞는 자식만 반환
+      }
+      return null; // 조건에 맞지 않는 자식은 무시
+    });
+    setChildrenState(newChildren);
+  };
+
   // auto carousel용 interval hook
   // handleNext 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
   useInterval(auto, autoTimer, () => {
@@ -115,6 +128,7 @@ export function Carousel({
             transition={transition}
             handlePrev={handlePrev}
             handleNext={handleNext}
+            handleDelete={handleDeleteChildren}
           >
             {sliderChildren}
           </CarouselSlider>
