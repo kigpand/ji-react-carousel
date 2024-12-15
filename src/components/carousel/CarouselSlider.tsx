@@ -37,7 +37,7 @@ export default function CarouselSlider({
   const handleMouseUp = (e: MouseEvent) => {
     if (startPosition > e.clientX) {
       handleNext();
-    } else {
+    } else if (startPosition < e.clientX) {
       handlePrev();
     }
   };
@@ -50,7 +50,7 @@ export default function CarouselSlider({
     const touch = e.changedTouches[0];
     if (startPosition > touch.clientX) {
       handleNext();
-    } else {
+    } else if (startPosition < touch.clientX) {
       handlePrev();
     }
   };
