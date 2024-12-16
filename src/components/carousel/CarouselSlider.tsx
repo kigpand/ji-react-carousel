@@ -68,7 +68,7 @@ export default function CarouselSlider({
     >
       {React.Children.map(children, (item, i) => {
         return (
-          <SliderItem key={i} width={width}>
+          <SliderItem key={i} width={width} isCurrent={moveCount + 1 === i}>
             {item}
             <CarouselDelete handleDeleteButton={() => handleDelete(i)} />
           </SliderItem>
@@ -86,6 +86,7 @@ type StyledProps = {
 
 const SliderWrapper = styled.div<StyledProps>`
   display: flex;
+  gap: 5px;
   cursor: grab;
 
   ${(props) =>
@@ -96,10 +97,16 @@ const SliderWrapper = styled.div<StyledProps>`
     `}
 `;
 
-const SliderItem = styled.div<{ width: number }>`
+const SliderItem = styled.div<{ width: number; isCurrent: boolean }>`
   width: ${(props) => props.width}px;
   position: relative;
   overflow: hidden;
+
+  ${({ isCurrent }) =>
+    !isCurrent &&
+    css`
+      transform: scale(0.9);
+    `}
 
   &:hover .carousel_deleteButton {
     display: block;
