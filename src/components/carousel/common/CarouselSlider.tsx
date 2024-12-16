@@ -13,6 +13,7 @@ type Props = {
   width: number;
   moveCount: number;
   transition: number;
+  viewCount: number;
   handlePrev: () => void;
   handleNext: () => void;
   handleDelete: (index: number) => void;
@@ -23,6 +24,7 @@ export default function CarouselSlider({
   width,
   moveCount,
   transition,
+  viewCount,
   handlePrev,
   handleNext,
   handleDelete,
@@ -61,6 +63,7 @@ export default function CarouselSlider({
       width={React.Children.count(children) * width}
       translateX={moveCount * width}
       transition={transition}
+      isSingle={viewCount === 1}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onTouchStart={handleTouchStart}
@@ -82,11 +85,12 @@ type StyledProps = {
   width: number;
   translateX: number;
   transition: number;
+  isSingle: boolean;
 };
 
 const SliderWrapper = styled.div<StyledProps>`
   display: flex;
-  gap: 5px;
+  gap: ${(props) => (props.isSingle ? 0 : 5)}px;
   cursor: grab;
 
   ${(props) =>

@@ -38,7 +38,7 @@ export function useMoveCount(
         handleMoveToSlide(viewCount);
       }
     } else {
-      if (moveCount < sliderChildren.length - viewCount + 1) {
+      if (moveCount < sliderChildren.length - viewCount) {
         setMoveCount(moveCount + 1);
       }
     }
