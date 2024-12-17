@@ -14,6 +14,7 @@ type Props = {
   moveCount: number;
   transition: number;
   viewCount: number;
+  isFocus?: boolean;
   handlePrev: () => void;
   handleNext: () => void;
   handleDelete: (index: number) => void;
@@ -25,6 +26,7 @@ export default function CarouselSlider({
   moveCount,
   transition,
   viewCount,
+  isFocus = false,
   handlePrev,
   handleNext,
   handleDelete,
@@ -71,7 +73,12 @@ export default function CarouselSlider({
     >
       {React.Children.map(children, (item, i) => {
         return (
-          <SliderItem key={i} width={width} isCurrent={moveCount + 1 === i}>
+          <SliderItem
+            key={i}
+            width={width}
+            isFocus={isFocus}
+            isCurrent={moveCount + 1 === i}
+          >
             {item}
             <CarouselDelete handleDeleteButton={() => handleDelete(i)} />
           </SliderItem>
@@ -101,12 +108,17 @@ const SliderWrapper = styled.div<StyledProps>`
     `}
 `;
 
-const SliderItem = styled.div<{ width: number; isCurrent: boolean }>`
+const SliderItem = styled.div<{
+  width: number;
+  isFocus: boolean;
+  isCurrent: boolean;
+}>`
   width: ${(props) => props.width}px;
   position: relative;
   overflow: hidden;
 
-  ${({ isCurrent }) =>
+  ${({ isFocus, isCurrent }) =>
+    isFocus &&
     !isCurrent &&
     css`
       transform: scale(0.9);
