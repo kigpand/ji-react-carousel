@@ -1,6 +1,14 @@
 import React, { ReactElement, useState } from "react";
 import { useThrottle } from "./useThrottle";
 
+/**
+ * @description Carousel의 slide controller hook
+ *
+ * @param infinite 무한 슬라이드 적용 여부. defalut = false
+ * @param viewCount  Carousel에서 한번에 보여줄 item 갯수
+ * @param sliderChildren Carousel에 적용될 slider item list
+ * @param childrenState 사용자에게 입력받은 children
+ */
 export function useMoveCount(
   infinite: boolean,
   viewCount: number,
@@ -13,6 +21,7 @@ export function useMoveCount(
   const [transition, setTransition] = useState<number>(500);
   const throttle = useThrottle();
 
+  // transition 동작동안 이벤트 호ㅜㄹ을 막기 위해 throttle 사용
   const handlePrev = throttle(() => {
     if (infinite) {
       setMoveCount(moveCount - 1);

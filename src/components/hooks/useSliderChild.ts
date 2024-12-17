@@ -1,11 +1,20 @@
 import React, { ReactElement, ReactNode, useMemo, useState } from "react";
 
+/**
+ * @description Carousel에 적용할 아이템을 만들고 삭제하기 위해 만들어진 hook.
+ *
+ * @param infinite 무한 슬라이드 적용 여부. defalut = false
+ * @param viewCount Carousel에서 한번에 보여줄 item 갯수
+ * @param children 사용자에게 입력받은 Carousel item list
+ *
+ */
 export function useSliderChild(
   infinite: boolean,
   viewCount: number,
   children: ReactNode
 ) {
-  // 원본 children state
+  // 원본 children의 정보를 가지고 있는 state.
+  // 사용자의 children을 직접 controller하는건 위험하다고 생각해 state로 따로 관리.
   const [childrenState, setChildrenState] = useState<React.ReactNode>(children);
 
   /**
@@ -33,6 +42,7 @@ export function useSliderChild(
     );
   }, [childrenState, infinite, viewCount]);
 
+  // 현재 Carousel에 적용된 slide item을 삭제하는 함수
   const handleDeleteChildren = (index: number) => {
     const postion = infinite ? index - viewCount : index;
     const newChildren = React.Children.map(childrenState, (child, i) => {
