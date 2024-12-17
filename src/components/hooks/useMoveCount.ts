@@ -1,4 +1,5 @@
 import React, { ReactElement, useState } from "react";
+import { useThrottle } from "./useThrottle";
 
 export function useMoveCount(
   infinite: boolean,
@@ -10,8 +11,9 @@ export function useMoveCount(
   const [moveCount, setMoveCount] = useState<number>(infinite ? viewCount : 0);
   // transition용 state
   const [transition, setTransition] = useState<number>(500);
+  const throttle = useThrottle();
 
-  const handlePrev = () => {
+  const handlePrev = throttle(() => {
     if (infinite) {
       setMoveCount(moveCount - 1);
 
@@ -27,9 +29,9 @@ export function useMoveCount(
       }
     }
     setTransition(500);
-  };
+  }, 500);
 
-  const handleNext = () => {
+  const handleNext = throttle(() => {
     if (infinite) {
       setMoveCount(moveCount + 1);
       // sliderChildren.length - 1 - viewCount => 임시 슬라이드의 마지막까지 캐로셀에 표시됬다는 것.
@@ -43,7 +45,7 @@ export function useMoveCount(
       }
     }
     setTransition(500);
-  };
+  }, 500);
 
   /**
    * 임시 아이템에 도달했을 경우 실행할 함수.
