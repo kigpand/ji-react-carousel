@@ -31,9 +31,11 @@ const PagingStyled = styled.ul`
   display: flex;
   justify-content: center;
   gap: 15px;
+  list-style: none;
 `;
 
 const PagingItem = styled.li<{ isActive: boolean }>`
+  list-style: none;
   width: 8px;
   height: 8px;
   background-color: #66d4ff;
