@@ -1,5 +1,3 @@
-import CarouselSlider from "./common/CarouselSlider";
-import { useInterval } from "../hooks/useInterval";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import {
   ArrowWrapper,
@@ -7,24 +5,18 @@ import {
   CarouselWrapper,
   Wrapper,
 } from "../../styles/carouselStyled";
-import { useMoveCount } from "../hooks/useMoveCount";
-import { useSliderChild } from "../hooks/useSliderChild";
+import CarouselSlider from "./common/CarouselSlider";
+import CarouselPaging from "./paging/CarouselPaging";
 import { PropsWithChildren } from "react";
+import { useSliderChild } from "../hooks/useSliderChild";
+import { useMoveCount } from "../hooks/useMoveCount";
+import { useInterval } from "../hooks/useInterval";
 
 type CarouselProps = {
   /**
    * width: Carousel Item의 width
    */
   width: number;
-
-  /**
-   * viewCount: Carousel에서 한번에 보여줄 item 갯수
-   */
-  viewCount: number;
-  /**
-   * infinite: 무한 슬라이드 적용 여부. defalut = false
-   */
-  infinite?: boolean;
   /**
    * auto: 자동으로 슬라이드가 넘어가도록 동작할지 여부. default = false
    */
@@ -35,26 +27,16 @@ type CarouselProps = {
   autoTimer?: number;
 } & PropsWithChildren;
 
-export function Carousel({
+export function PagingCarousel({
   children,
   width,
-  viewCount,
-  infinite = false,
   auto = false,
   autoTimer = 3000,
 }: CarouselProps) {
   const { childrenState, sliderChildren, handleDeleteChildren } =
-    useSliderChild(infinite, viewCount, children);
+    useSliderChild(false, 1, children);
+  const moveCount = useMoveCount(false, 1, sliderChildren, childrenState);
 
-  const moveCount = useMoveCount(
-    infinite,
-    viewCount,
-    sliderChildren,
-    childrenState
-  );
-
-  // auto carousel용 interval hook
-  // handleNext 함수가 한개씩 증가하도록 동작하는 함수이므로 내부에서 실행.
   useInterval(auto, autoTimer, () => {
     moveCount.handleNext();
   });
@@ -62,14 +44,14 @@ export function Carousel({
   return (
     <CarouselWrapper>
       <Wrapper>
-        <ArrowWrapper data-testid="left-arrow">
-          {(infinite || moveCount.moveCount !== 0) && (
+        <ArrowWrapper>
+          {moveCount.moveCount !== 0 && (
             <FaChevronLeft size="30" onClick={moveCount.handlePrev} />
           )}
         </ArrowWrapper>
-        <CarouselStyled width={`${viewCount * width}px`}>
+        <CarouselStyled width={`${width}px`}>
           <CarouselSlider
-            viewCount={viewCount}
+            viewCount={1}
             width={width}
             {...moveCount}
             handleDelete={handleDeleteChildren}
@@ -77,13 +59,17 @@ export function Carousel({
             {sliderChildren}
           </CarouselSlider>
         </CarouselStyled>
-        <ArrowWrapper data-testid="right-arrow">
-          {(infinite ||
-            moveCount.moveCount < sliderChildren.length - viewCount) && (
+        <ArrowWrapper>
+          {moveCount.moveCount !== sliderChildren.length - 1 && (
             <FaChevronRight size="30" onClick={moveCount.handleNext} />
           )}
         </ArrowWrapper>
       </Wrapper>
+      <CarouselPaging
+        moveCount={moveCount.moveCount}
+        pageCount={sliderChildren.length}
+        handleChangeMoveCount={moveCount.handleControlMoveCount}
+      />
     </CarouselWrapper>
   );
 }
