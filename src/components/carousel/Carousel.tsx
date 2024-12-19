@@ -62,7 +62,7 @@ export function Carousel({
   return (
     <CarouselWrapper>
       <Wrapper>
-        <ArrowWrapper>
+        <ArrowWrapper data-testid="left-arrow">
           {(infinite || moveCount.moveCount !== 0) && (
             <FaChevronLeft size="30" onClick={moveCount.handlePrev} />
           )}
@@ -77,7 +77,7 @@ export function Carousel({
             {sliderChildren}
           </CarouselSlider>
         </CarouselStyled>
-        <ArrowWrapper>
+        <ArrowWrapper data-testid="right-arrow">
           {(infinite ||
             moveCount.moveCount < sliderChildren.length - viewCount) && (
             <FaChevronRight size="30" onClick={moveCount.handleNext} />
