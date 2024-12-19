@@ -61,6 +61,7 @@ export default function CarouselSlider({
 
   return (
     <SliderWrapper
+      data-testid="slider-wrapper"
       ref={sliderRef}
       width={React.Children.count(children) * width}
       translateX={moveCount * width}
