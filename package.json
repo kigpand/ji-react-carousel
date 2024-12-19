@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "dev": "vite",
+    "test": "vitest",
     "build": "tsup",
     "lint": "eslint .",
     "preview": "vite preview"

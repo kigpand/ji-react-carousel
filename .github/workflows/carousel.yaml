@@ -1,0 +1,26 @@
+name: ji-react-carousel
+run-name: ji-react-carousel start pull request
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: install node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.16.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
