@@ -1,5 +1,13 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import type { UserConfig as VitestUserConfig } from "vitest/config";
+
+declare module "vite" {
+  export interface UserConfig {
+    test: VitestUserConfig["test"];
+  }
+}
 
 export default defineConfig({
   plugins: [react()],
@@ -18,5 +26,10 @@ export default defineConfig({
         },
       },
     },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.ts",
   },
 });
