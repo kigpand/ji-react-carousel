@@ -24,24 +24,19 @@ type CarouselProps = {
    * autoTimer: 자동 슬라이드 적용시 슬라이드 속도. default = 3000ms
    */
   autoTimer?: number;
-  /**
-   * infinite: 무한 슬라이드 적용 여부. defalut = false
-   */
-  infinite?: boolean;
 } & PropsWithChildren;
 
 export function FocusCarousel({
   children,
   width,
   auto = false,
-  infinite = false,
   autoTimer = 3000,
 }: CarouselProps) {
   const viewCount = 3;
   const { childrenState, sliderChildren, handleDeleteChildren } =
-    useSliderChild(infinite, viewCount, children);
+    useSliderChild(true, viewCount, children);
   const moveCount = useMoveCount(
-    infinite,
+    true,
     viewCount,
     sliderChildren,
     childrenState
@@ -55,7 +50,7 @@ export function FocusCarousel({
     <CarouselWrapper>
       <Wrapper>
         <ArrowWrapper>
-          {(infinite || moveCount.moveCount !== 0) && (
+          {moveCount.moveCount !== 0 && (
             <FaChevronLeft size="30" onClick={moveCount.handlePrev} />
           )}
         </ArrowWrapper>
@@ -71,8 +66,7 @@ export function FocusCarousel({
           </CarouselSlider>
         </CarouselStyled>
         <ArrowWrapper>
-          {(infinite ||
-            moveCount.moveCount < sliderChildren.length - viewCount) && (
+          {moveCount.moveCount < sliderChildren.length - viewCount && (
             <FaChevronRight size="30" onClick={moveCount.handleNext} />
           )}
         </ArrowWrapper>
