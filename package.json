@@ -1,8 +1,16 @@
 {
   "name": "ji-react-carousel",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "version": "1.0.100",
+  "description": "ji carousel library",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
