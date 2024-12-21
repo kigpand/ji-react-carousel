@@ -1,6 +1,5 @@
 {
   "name": "ji-react-carousel",
-  "private": true,
   "type": "module",
   "version": "1.0.100",
   "description": "ji carousel library",
