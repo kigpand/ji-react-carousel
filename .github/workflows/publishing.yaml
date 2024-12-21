@@ -26,6 +26,9 @@ jobs:
       - name: Build the project
         run: npm run build
 
+      - name: Check .npmrc file
+        run: cat ~/.npmrc
+
       - name: Publish to npm
         run: npm whoami
         env:
