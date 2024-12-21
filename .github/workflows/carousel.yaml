@@ -4,7 +4,7 @@ run-name: ji-react-carousel start pull request
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   Explore-GitHub-Actions:
