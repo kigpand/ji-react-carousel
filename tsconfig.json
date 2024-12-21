@@ -3,5 +3,20 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "declaration": true,
+    "declarationDir": "dist", // 타입 정의 파일 저장 디렉터리
+    "emitDeclarationOnly": true, // 타입 정의 파일만 생성
+    "outDir": "dist", // 출력 디렉터리
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
