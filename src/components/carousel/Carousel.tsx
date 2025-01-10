@@ -9,7 +9,7 @@ import {
 } from "../../styles/carouselStyled";
 import { useMoveCount } from "../hooks/useMoveCount";
 import { useSliderChild } from "../hooks/useSliderChild";
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 
 type CarouselProps = {
   /**
@@ -33,6 +33,16 @@ type CarouselProps = {
    * autoTimer: 자동 슬라이드 적용시 슬라이드 속도. default = 3000ms
    */
   autoTimer?: number;
+
+  /**
+   * leftArrow: 왼쪽 화살표 UI. 없을 경우 기존 UI 표시
+   */
+  LeftArrow?: React.ReactElement;
+
+  /**
+   * rightArrow: 오른쪽 화살표 UI. 없을 경우 기존 UI 표시
+   */
+  RightArrow?: React.ReactElement;
 } & PropsWithChildren;
 
 export function Carousel({
@@ -42,6 +52,8 @@ export function Carousel({
   infinite = false,
   auto = false,
   autoTimer = 3000,
+  LeftArrow,
+  RightArrow,
 }: CarouselProps) {
   const { childrenState, sliderChildren, handleDeleteChildren } =
     useSliderChild(infinite, viewCount, children);
@@ -62,10 +74,9 @@ export function Carousel({
   return (
     <CarouselWrapper>
       <Wrapper>
-        <ArrowWrapper data-testid="left-arrow">
-          {(infinite || moveCount.moveCount !== 0) && (
-            <FaChevronLeft size="30" onClick={moveCount.handlePrev} />
-          )}
+        <ArrowWrapper data-testid="left-arrow" onClick={moveCount.handlePrev}>
+          {(infinite || moveCount.moveCount !== 0) &&
+            (LeftArrow ?? <FaChevronLeft size="30" />)}
         </ArrowWrapper>
         <CarouselStyled width={`${viewCount * width}px`}>
           <CarouselSlider
@@ -77,11 +88,10 @@ export function Carousel({
             {sliderChildren}
           </CarouselSlider>
         </CarouselStyled>
-        <ArrowWrapper data-testid="right-arrow">
+        <ArrowWrapper data-testid="right-arrow" onClick={moveCount.handleNext}>
           {(infinite ||
-            moveCount.moveCount < sliderChildren.length - viewCount) && (
-            <FaChevronRight size="30" onClick={moveCount.handleNext} />
-          )}
+            moveCount.moveCount < sliderChildren.length - viewCount) &&
+            (RightArrow ?? <FaChevronRight size="30" />)}
         </ArrowWrapper>
       </Wrapper>
     </CarouselWrapper>
