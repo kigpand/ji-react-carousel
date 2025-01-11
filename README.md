@@ -16,7 +16,7 @@ npm install ji-react-carousel
 #### Carousel
 기본적인 Carousel Component
 ```javascript
-<Carousel width={200} viewCount={3}>
+<Carousel width={200} viewCount={3} LeftArrow={<div>left</div>} RightArrow={<div>right</div>}>
   <div style={{ height: "100%", background: "blue" }}>1</div>
   <div style={{ height: "100%", background: "green" }}>2</div>
   <div style={{ height: "100%", background: "pink" }}>3</div>
@@ -24,13 +24,15 @@ npm install ji-react-carousel
   <div style={{ height: "100%", background: "orange" }}>5</div>
 </Carousel>
 ```
-options
+Carousel options
 ```
 width: Carousel Item의 넓이
 viewCount: Carousel에서 한번에 보여줄 item의 갯수
 infinite: 무한 슬라이드 on/off 옵션. default = false
 auto: 자동 슬라이드 on/off 옵션. default = false
 autoTimer: 자동 슬라이드 타이머. default = 3000
+LeftArrow: 왼쪽 화살표 UI(React.ReactElement)
+RightArrow: 오른쪽 화살표 UI(React.ReactElement)
 ```
 #### FocusCarousel
 강조되는 아이템이 나오는 Carousel Component
@@ -43,7 +45,7 @@ autoTimer: 자동 슬라이드 타이머. default = 3000
   <div style={{ height: "100%", background: "orange" }}>5</div>
 </FocusCarousel>
 ```
-options
+FocusCarousel options
 ```
 width: Carousel Item의 넓이
 auto: 자동 슬라이드 on/off 옵션. default = false
@@ -60,7 +62,7 @@ autoTimer: 자동 슬라이드 타이머. default = 3000
   <div style={{ height: "100%", background: "orange" }}>5</div>
 </PagingCarousel>
 ```
-options
+PagingCarousel options
 ```
 width: Carousel Item의 넓이
 auto: 자동 슬라이드 on/off 옵션. default = false
