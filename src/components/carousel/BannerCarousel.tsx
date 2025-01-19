@@ -5,8 +5,9 @@ import { useSliderChild } from "../hooks/useSliderChild";
 import { useMoveCount } from "../hooks/useMoveCount";
 import { useInterval } from "../hooks/useInterval";
 import styled from "@emotion/styled";
-import STOP from "../../assets/stop.png";
-import PLAY from "../../assets/play.png";
+
+const STOP = "/assets/stop.png";
+const PLAY = "/assets/play.png";
 
 type CarouselProps = {
   /**
