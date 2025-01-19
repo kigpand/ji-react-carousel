@@ -15,6 +15,7 @@ type Props = {
   transition: number;
   viewCount: number;
   isFocus?: boolean;
+  isDragging?: boolean;
   hasDeleteButton?: boolean;
   handlePrev: () => void;
   handleNext: () => void;
@@ -29,6 +30,7 @@ export default function CarouselSlider({
   viewCount,
   isFocus = false,
   hasDeleteButton = true,
+  isDragging = true,
   handlePrev,
   handleNext,
   handleDelete,
@@ -69,10 +71,11 @@ export default function CarouselSlider({
       translateX={moveCount * width}
       transition={transition}
       isSingle={viewCount === 1}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      isDragging={isDragging}
+      onMouseDown={isDragging ? handleMouseDown : undefined}
+      onMouseUp={isDragging ? handleMouseUp : undefined}
+      onTouchStart={isDragging ? handleTouchStart : undefined}
+      onTouchEnd={isDragging ? handleTouchEnd : undefined}
     >
       {React.Children.map(children, (item, i) => {
         return (
@@ -98,12 +101,13 @@ type StyledProps = {
   translateX: number;
   transition: number;
   isSingle: boolean;
+  isDragging: boolean;
 };
 
 const SliderWrapper = styled.div<StyledProps>`
   display: flex;
   gap: ${(props) => (props.isSingle ? 0 : 5)}px;
-  cursor: grab;
+  cursor: ${(props) => (props.isDragging ? "grab" : "default")};
 
   ${(props) =>
     css`

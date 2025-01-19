@@ -29,10 +29,6 @@ export function BannerCarousel({ children, auto, autoTimer }: CarouselProps) {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    console.log(width);
-  }, [width]);
-
-  useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
         setWidth(containerRef.current.offsetWidth);
@@ -63,6 +59,7 @@ export function BannerCarousel({ children, auto, autoTimer }: CarouselProps) {
           width={width}
           {...moveCount}
           handleDelete={handleDeleteChildren}
+          isDragging={false}
           hasDeleteButton={false}
         >
           {sliderChildren}
