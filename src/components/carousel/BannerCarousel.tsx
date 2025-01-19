@@ -6,6 +6,7 @@ import { useMoveCount } from "../hooks/useMoveCount";
 import { useInterval } from "../hooks/useInterval";
 import styled from "@emotion/styled";
 import STOP from "../../assets/stop.png";
+import PLAY from "../../assets/play.png";
 
 type CarouselProps = {
   /**
@@ -87,11 +88,11 @@ export function BannerCarousel({
       </DesktopButtonsWrapper>
       <MobileButtonsWrapper>
         <StopButton>
-          {isAuto ? (
-            <StopImg onClick={() => setIsAuto(false)} src={STOP} alt="stop" />
-          ) : (
-            <div onClick={() => setIsAuto(true)}>s</div>
-          )}
+          <StopImg
+            onClick={() => setIsAuto(!isAuto)}
+            src={isAuto ? STOP : PLAY}
+            alt="stopIcon"
+          />
         </StopButton>
         <PageCounting>
           {moveCount.moveCount} / {bannerInfo.length}
