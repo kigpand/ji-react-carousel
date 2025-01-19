@@ -15,6 +15,7 @@ type Props = {
   transition: number;
   viewCount: number;
   isFocus?: boolean;
+  hasDeleteButton?: boolean;
   handlePrev: () => void;
   handleNext: () => void;
   handleDelete: (index: number) => void;
@@ -27,6 +28,7 @@ export default function CarouselSlider({
   transition,
   viewCount,
   isFocus = false,
+  hasDeleteButton = true,
   handlePrev,
   handleNext,
   handleDelete,
@@ -81,7 +83,9 @@ export default function CarouselSlider({
             isCurrent={moveCount + 1 === i}
           >
             {item}
-            <CarouselDelete handleDeleteButton={() => handleDelete(i)} />
+            {hasDeleteButton && (
+              <CarouselDelete handleDeleteButton={() => handleDelete(i)} />
+            )}
           </SliderItem>
         );
       })}

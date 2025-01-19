@@ -43,6 +43,11 @@ type CarouselProps = {
    * rightArrow: 오른쪽 화살표 UI. 없을 경우 기존 UI 표시
    */
   RightArrow?: React.ReactElement;
+
+  /**
+   * hasDeleteButton: 삭제버튼 유무
+   */
+  hasDeleteButton?: boolean;
 } & PropsWithChildren;
 
 export function Carousel({
@@ -54,6 +59,7 @@ export function Carousel({
   autoTimer = 3000,
   LeftArrow,
   RightArrow,
+  hasDeleteButton,
 }: CarouselProps) {
   const { childrenState, sliderChildren, handleDeleteChildren } =
     useSliderChild(infinite, viewCount, children);
@@ -84,6 +90,7 @@ export function Carousel({
             width={width}
             {...moveCount}
             handleDelete={handleDeleteChildren}
+            hasDeleteButton={hasDeleteButton}
           >
             {sliderChildren}
           </CarouselSlider>
