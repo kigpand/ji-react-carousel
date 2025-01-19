@@ -1,5 +1,9 @@
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { CarouselStyled, Wrapper } from "../../styles/carouselStyled";
+import {
+  CarouselStyled,
+  CarouselWrapper,
+  Wrapper,
+} from "../../styles/carouselStyled";
 import CarouselSlider from "./common/CarouselSlider";
 import { useSliderChild } from "../hooks/useSliderChild";
 import { useMoveCount } from "../hooks/useMoveCount";
@@ -35,11 +39,12 @@ export function BannerCarousel({
   const { childrenState, sliderChildren, handleDeleteChildren } =
     useSliderChild(true, viewCount, children);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [width, setWidth] = useState(0);
+  const [width, setWidth] = useState<number | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
+        setIsAuto(false);
         setWidth(containerRef.current.offsetWidth);
       }
     };
@@ -61,45 +66,49 @@ export function BannerCarousel({
   });
 
   return (
-    <BannerCarouselWrapper ref={containerRef}>
-      <CarouselStyled width={`${width * viewCount}px`}>
-        <CarouselSlider
-          viewCount={viewCount}
-          width={width}
-          {...moveCount}
-          handleDelete={handleDeleteChildren}
-          isDragging={false}
-          hasDeleteButton={false}
-        >
-          {sliderChildren}
-        </CarouselSlider>
-      </CarouselStyled>
-      <DesktopButtonsWrapper>
-        {bannerInfo.map((item, i) => {
-          return (
-            <BannerButton
-              key={i}
-              onClick={() => moveCount.handleControlMoveCount(i + 1)}
+    <CarouselWrapper>
+      <BannerCarouselWrapper ref={containerRef}>
+        {width && (
+          <CarouselStyled width={`${width * viewCount}px`}>
+            <CarouselSlider
+              viewCount={viewCount}
+              width={width}
+              {...moveCount}
+              handleDelete={handleDeleteChildren}
+              isDragging={false}
+              hasDeleteButton={false}
             >
-              <BannerIcon src={item.iconUrl} alt={item.title} />
-              <BannerTitle>{item.title}</BannerTitle>
-            </BannerButton>
-          );
-        })}
-      </DesktopButtonsWrapper>
-      <MobileButtonsWrapper>
-        <StopButton>
-          <StopImg
-            onClick={() => setIsAuto(!isAuto)}
-            src={isAuto ? STOP : PLAY}
-            alt="stopIcon"
-          />
-        </StopButton>
-        <PageCounting>
-          {moveCount.moveCount} / {bannerInfo.length}
-        </PageCounting>
-      </MobileButtonsWrapper>
-    </BannerCarouselWrapper>
+              {sliderChildren}
+            </CarouselSlider>
+          </CarouselStyled>
+        )}
+        <DesktopButtonsWrapper>
+          {bannerInfo.map((item, i) => {
+            return (
+              <BannerButton
+                key={i}
+                onClick={() => moveCount.handleControlMoveCount(i + 1)}
+              >
+                <BannerIcon src={item.iconUrl} alt={item.title} />
+                <BannerTitle>{item.title}</BannerTitle>
+              </BannerButton>
+            );
+          })}
+        </DesktopButtonsWrapper>
+        <MobileButtonsWrapper>
+          <StopButton>
+            <StopImg
+              onClick={() => setIsAuto(!isAuto)}
+              src={isAuto ? STOP : PLAY}
+              alt="stopIcon"
+            />
+          </StopButton>
+          <PageCounting>
+            {moveCount.moveCount} / {bannerInfo.length}
+          </PageCounting>
+        </MobileButtonsWrapper>
+      </BannerCarouselWrapper>
+    </CarouselWrapper>
   );
 }
 
