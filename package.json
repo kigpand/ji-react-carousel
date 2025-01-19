@@ -1,7 +1,7 @@
 {
   "name": "ji-react-carousel",
   "type": "module",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "ji carousel library",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

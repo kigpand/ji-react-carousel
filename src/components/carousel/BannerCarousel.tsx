@@ -5,6 +5,7 @@ import { useSliderChild } from "../hooks/useSliderChild";
 import { useMoveCount } from "../hooks/useMoveCount";
 import { useInterval } from "../hooks/useInterval";
 import styled from "@emotion/styled";
+import STOP from "../../assets/stop.png";
 
 type CarouselProps = {
   /**
@@ -27,6 +28,7 @@ export function BannerCarousel({
   autoTimer,
   bannerInfo,
 }: CarouselProps) {
+  const [isAuto, setIsAuto] = useState<boolean>(auto);
   const viewCount = 1;
   const { childrenState, sliderChildren, handleDeleteChildren } =
     useSliderChild(true, viewCount, children);
@@ -52,7 +54,7 @@ export function BannerCarousel({
     childrenState
   );
 
-  useInterval(auto, autoTimer, () => {
+  useInterval(isAuto, autoTimer, () => {
     moveCount.handleNext();
   });
 
@@ -83,7 +85,18 @@ export function BannerCarousel({
           );
         })}
       </DesktopButtonsWrapper>
-      <MobileButtonsWrapper></MobileButtonsWrapper>
+      <MobileButtonsWrapper>
+        <StopButton>
+          {isAuto ? (
+            <StopImg onClick={() => setIsAuto(false)} src={STOP} alt="stop" />
+          ) : (
+            <div onClick={() => setIsAuto(true)}>s</div>
+          )}
+        </StopButton>
+        <PageCounting>
+          {moveCount.moveCount} / {bannerInfo.length}
+        </PageCounting>
+      </MobileButtonsWrapper>
     </BannerCarouselWrapper>
   );
 }
@@ -137,4 +150,41 @@ const BannerTitle = styled.p`
 const MobileButtonsWrapper = styled.div`
   position: absolute;
   z-index: 100;
+  display: flex;
+  bottom: 20px;
+  right: 16px;
+  gap: 2px;
+
+  @media (min-width: 430px) {
+    display: none;
+  }
+`;
+
+const StopButton = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+`;
+
+const StopImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;
+
+const PageCounting = styled.div`
+  width: 50px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  font-size: 14px;
 `;
