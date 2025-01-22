@@ -104,7 +104,8 @@ export function BannerCarousel({
             />
           </StopButton>
           <PageCounting>
-            {moveCount.moveCount} / {bannerInfo.length}
+            {moveCount.moveCount > bannerInfo.length ? 1 : moveCount.moveCount}{" "}
+            / {bannerInfo.length}
           </PageCounting>
         </MobileButtonsWrapper>
       </BannerCarouselWrapper>
@@ -120,7 +121,7 @@ const DesktopButtonsWrapper = styled.div`
   position: absolute;
   right: 10%;
   background-color: black;
-  z-index: 100;
+  z-index: 1;
   width: 180px;
   border-radius: 4px;
   overflow: hidden;
@@ -160,7 +161,7 @@ const BannerTitle = styled.p`
 
 const MobileButtonsWrapper = styled.div`
   position: absolute;
-  z-index: 100;
+  z-index: 1;
   display: flex;
   bottom: 20px;
   right: 16px;
