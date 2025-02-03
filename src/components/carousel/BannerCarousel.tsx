@@ -87,6 +87,7 @@ export function BannerCarousel({
             return (
               <BannerButton
                 key={i}
+                isCurrent={i === moveCount.moveCount - 1}
                 onClick={() => moveCount.handleControlMoveCount(i + 1)}
               >
                 <BannerIcon src={item.iconUrl} alt={item.title} />
@@ -120,10 +121,9 @@ const BannerCarouselWrapper = styled(Wrapper)`
 const DesktopButtonsWrapper = styled.div`
   position: absolute;
   right: 10%;
-  background-color: black;
   z-index: 1;
   width: 180px;
-  border-radius: 4px;
+  border-radius: 12px;
   overflow: hidden;
   display: block;
 
@@ -132,19 +132,15 @@ const DesktopButtonsWrapper = styled.div`
   }
 `;
 
-const BannerButton = styled.button`
+const BannerButton = styled.button<{ isCurrent: boolean }>`
   width: 100%;
   display: flex;
   gap: 10px;
   padding: 20px;
   border: none;
   outline: none;
-  background-color: white;
   cursor: pointer;
-
-  &:nth-of-type(odd) {
-    background-color: #f1f5f9;
-  }
+  background-color: ${(props) => (props.isCurrent ? "#f1f5f9" : "white")};
 `;
 
 const BannerIcon = styled.img`
